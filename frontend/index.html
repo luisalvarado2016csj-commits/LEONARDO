@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEO_IA | Centro de Mando AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-900 min-h-screen text-slate-200 p-4 md:p-8 font-sans">
+<body class="min-h-screen text-slate-100 p-4 md:p-8">
 
     <header class="max-w-6xl mx-auto mb-8 flex items-center justify-between border-b border-slate-700 pb-4">
         <div>
@@ -23,12 +24,23 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Navegación por pestañas -->
+    <div class="max-w-6xl mx-auto mb-6 flex space-x-2">
+        <button id="tab-analisis" class="tab-btn px-6 py-3 rounded-t-lg font-bold flex items-center gap-2 transition-colors bg-blue-600 text-white border-b-2 border-blue-400">
+            <i class="fa-solid fa-microscope"></i> Centro de Análisis
+        </button>
+        <button id="tab-estadisticas" class="tab-btn px-6 py-3 rounded-t-lg font-bold flex items-center gap-2 transition-colors bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border-b-2 border-transparent">
+            <i class="fa-solid fa-chart-pie"></i> Estadísticas
+        </button>
+    </div>
+
+    <!-- Vista: Análisis -->
+    <main id="view-analisis" class="tab-content max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <div class="col-span-2 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 p-6 flex flex-col">
-            <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-camera mr-2 text-slate-400"></i>Ingesta de Datos Visuales</h2>
+        <div class="col-span-2 glass-panel rounded-xl p-6 flex flex-col">
+            <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-600/50 pb-2"><i class="fa-solid fa-camera mr-2 text-slate-300"></i>Ingesta de Datos Visuales</h2>
             
-            <div class="flex-grow flex flex-col items-center justify-center border-2 border-dashed border-slate-600 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition relative overflow-hidden" id="drop-zone" style="min-height: 300px;">
+            <div class="w-full flex flex-col items-center justify-center border-2 border-dashed border-slate-500/50 rounded-lg glass-subpanel hover:border-blue-400/50 transition-all duration-300 relative overflow-hidden group h-[380px]" id="drop-zone">
                 
                 <div id="upload-prompt" class="text-center p-6 w-full absolute inset-0 flex flex-col items-center justify-center">
                     <i class="fa-solid fa-cloud-arrow-up text-5xl text-blue-500 mb-4"></i>
@@ -46,13 +58,13 @@
                 </button>
             </div>
 
-            <button id="btn-analizar" class="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-lg shadow-lg shadow-blue-900/50 py-4 font-bold text-white uppercase tracking-wider disabled:opacity-50 transition-all flex justify-center items-center gap-3" disabled>
+            <button id="btn-analizar" class="mt-6 w-full glow-btn bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] py-4 font-bold text-white uppercase tracking-wider disabled:opacity-50 transition-all flex justify-center items-center gap-3" disabled>
                 <i class="fa-solid fa-bolt"></i> Iniciar Análisis de Tensores
             </button>
         </div>
 
-        <div class="col-span-1 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 p-6 flex flex-col h-full">
-            <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-clipboard-check mr-2 text-slate-400"></i>Panel de Decisión</h2>
+        <div class="col-span-1 glass-panel rounded-xl p-6 flex flex-col h-full">
+            <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-600/50 pb-2"><i class="fa-solid fa-clipboard-check mr-2 text-slate-300"></i>Panel de Decisión</h2>
 
             <div id="panel-espera" class="flex-grow flex flex-col items-center justify-center text-center text-slate-500 opacity-70">
                 <i class="fa-solid fa-robot text-4xl mb-3"></i>
@@ -73,24 +85,58 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900 p-4 rounded-lg border border-slate-600 mb-4 flex-grow">
-                    <h4 class="text-xs text-slate-400 uppercase tracking-widest mb-2 font-bold">Protocolo a seguir</h4>
-                    <p id="texto-accion" class="text-sm font-medium text-slate-300 leading-relaxed"></p>
-                </div>
-
-                <div class="space-y-2 mt-auto">
-                    <button class="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm py-2 px-4 rounded flex items-center justify-between transition border border-slate-600">
-                        <span><i class="fa-solid fa-database text-blue-400 mr-2"></i> Registrar en SQL Server</span>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
-                    </button>
-                    <button class="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm py-2 px-4 rounded flex items-center justify-between transition border border-slate-600">
-                        <span><i class="fa-solid fa-network-wired text-orange-400 mr-2"></i> Disparar flujo en n8n</span>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
-                    </button>
+                <div class="glass-subpanel p-4 rounded-lg mb-4 flex-grow">
+                    <h4 class="text-xs text-blue-300 uppercase tracking-widest mb-2 font-bold">Protocolo a seguir</h4>
+                    <p id="texto-accion" class="text-sm font-medium text-slate-200 leading-relaxed"></p>
                 </div>
             </div>
         </div>
 
+    </main>
+
+    <!-- Vista: Estadísticas -->
+    <main id="view-estadisticas" class="tab-content hidden max-w-6xl mx-auto">
+        <div class="glass-panel rounded-xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-600/50 pb-4">
+                <i class="fa-solid fa-chart-column text-blue-400 mr-3"></i> Rendimiento del Sistema
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Tarjetas de métricas -->
+                <div class="glass-subpanel p-6 rounded-lg text-center border-t-4 border-emerald-500">
+                    <p class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Piezas Óptimas</p>
+                    <p id="stat-aprobados" class="text-4xl font-black text-emerald-400">0</p>
+                </div>
+                <div class="glass-subpanel p-6 rounded-lg text-center border-t-4 border-rose-500">
+                    <p class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Defectos Detectados</p>
+                    <p id="stat-defectos" class="text-4xl font-black text-rose-500">0</p>
+                </div>
+                <div class="glass-subpanel p-6 rounded-lg text-center border-t-4 border-blue-500">
+                    <p class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Total Analizados</p>
+                    <p id="stat-total" class="text-4xl font-black text-blue-400">0</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Gráfico Circular -->
+                <div class="glass-subpanel p-6 rounded-lg h-[400px] flex flex-col items-center justify-center">
+                    <h3 class="text-center font-bold text-slate-300 mb-4 uppercase text-sm tracking-widest w-full">Distribución de Calidad</h3>
+                    <div class="w-full h-full relative flex items-center justify-center">
+                        <canvas id="chart-distribucion"></canvas>
+                    </div>
+                </div>
+
+                <!-- Insights de IA -->
+                <div class="glass-subpanel p-6 rounded-lg flex flex-col">
+                    <h3 class="text-center font-bold text-blue-300 mb-6 uppercase text-sm tracking-widest"><i class="fa-solid fa-lightbulb mr-2 text-yellow-400"></i> Conclusiones de la IA</h3>
+                    
+                    <div id="ai-insights" class="flex-grow flex flex-col items-center justify-center text-center p-4">
+                        <i class="fa-solid fa-robot text-6xl text-slate-600 mb-4 animate-bounce"></i>
+                        <p class="text-slate-400">Analizando el volumen de producción. Procese más piezas para generar reportes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="js/main.js"></script>
