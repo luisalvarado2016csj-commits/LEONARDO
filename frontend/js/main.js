@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statDefectos = document.getElementById('stat-defectos');
     const statTotal = document.getElementById('stat-total');
     const aiInsights = document.getElementById('ai-insights');
+    const btnResetStats = document.getElementById('btn-reset-stats');
 
     // --- Variables Globales ---
     let imagenSeleccionada = null;
@@ -175,6 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
             btnAnalizar.disabled = false;
             btnAnalizar.innerHTML = '<i class="fa-solid fa-bolt"></i> Iniciar Análisis de Tensores';
         }
+    });
+
+    btnResetStats.addEventListener('click', () => {
+        estadisticas = {
+            aprobados: 0,
+            defectos: 0,
+            total: 0
+        };
+        guardarEstadisticas();
+        actualizarUIEstadisticas();
+        aiInsights.innerHTML = `
+            <i class="fa-solid fa-robot text-6xl text-slate-600 mb-4 animate-bounce"></i>
+            <p class="text-slate-400">Analizando el volumen de producción. Procese más piezas para generar reportes.</p>
+        `;
     });
 
     // --- Funciones de Estadísticas ---

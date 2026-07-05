@@ -97,9 +97,14 @@
     <!-- Vista: Estadísticas -->
     <main id="view-estadisticas" class="tab-content hidden max-w-6xl mx-auto">
         <div class="glass-panel rounded-xl p-8 mb-8">
-            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-600/50 pb-4">
-                <i class="fa-solid fa-chart-column text-blue-400 mr-3"></i> Rendimiento del Sistema
-            </h2>
+            <div class="flex justify-between items-center mb-6 border-b border-slate-600/50 pb-4">
+                <h2 class="text-2xl font-bold text-white">
+                    <i class="fa-solid fa-chart-column text-blue-400 mr-3"></i> Rendimiento del Sistema
+                </h2>
+                <button id="btn-reset-stats" class="text-xs px-2 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded border border-slate-600 transition-colors flex items-center gap-1" title="Resetear estadísticas">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Tarjetas de métricas -->
