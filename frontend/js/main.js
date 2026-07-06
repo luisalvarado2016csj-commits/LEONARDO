@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mensaje = `Rendimiento aceptable (<strong>${porcentajeAprobado.toFixed(1)}%</strong>). Sin embargo, se sugiere revisar los parámetros de temperatura de la matriz debido al volumen de defectos.`;
             } else {
                 icono = '<i class="fa-solid fa-siren-on text-5xl text-rose-500 mb-4 animate-ping"></i>';
-                mensaje = `<strong>ALERTA CRÍTICA:</strong> El <strong>${(100 - porcentajeAprobado).toFixed(1)}%</strong> de las piezas presentan anomalías severas. Se recomienda detener la producción y recalibrar el brazo robótico de inmediato.`;
+                mensaje = `<strong>ALERTA CRÍTICA:</strong> El <strong>${(100 - porcentajeAprobado).toFixed(1)}%</strong> de las piezas presentan anomalías severas. Se recomienda detener la producción y solicitar la presencia del jefe de producción de inmediato.`;
             }
 
             aiInsights.innerHTML = `
